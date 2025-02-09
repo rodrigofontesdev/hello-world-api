@@ -19,3 +19,6 @@ jobs:
           cache: 'npm'
       - run: npm install
       - run: npm run test
+
+      - name: Build Docker image
+        run: docker build -t hello-world-api:latest .
