@@ -32,8 +32,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build Docker image
-        run: docker build -t rodrigofontes/hello-world-api:${{ steps.generate_tag.outputs.sha }} .
+      - name: Build and Push
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: rodrigofontes/hello-world-api:${{ steps.generate_tag.outputs.sha }},rodrigofontes/hello-world-api:latest
 
-      - name: Push image
-        run: docker push rodrigofontes/hello-world-api:${{ steps.generate_tag.outputs.sha }}
+      # - name: Build Docker image
+      #   run: docker build -t rodrigofontes/hello-world-api:${{ steps.generate_tag.outputs.sha }} .
+
+      # - name: Push image
+      #   run: docker push rodrigofontes/hello-world-api:${{ steps.generate_tag.outputs.sha }}
