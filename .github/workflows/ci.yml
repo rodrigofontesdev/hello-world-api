@@ -40,20 +40,13 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      # - name: Login into the Container Registry
-      #   uses: docker/login-action@v3
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      # - name: Build and Push
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     push: true
-      #     tags: rodrigofontes/hello-world-api:${{ steps.generate_tag.outputs.sha }},rodrigofontes/hello-world-api:latest
-
-      # - name: Build Docker image
-      #   run: docker build -t rodrigofontes/hello-world-api:${{ steps.generate_tag.outputs.sha }} .
+      - name: Build Docker image
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          TAG: ${{ steps.generate_tag.outputs.sha }}
+        run: |
+          docker build -t $REGISTRY/hello-world-api:$TAG .
+          docker push $REGISTRY/hello-world-api:$TAG
 
       # - name: Push image
       #   run: docker push rodrigofontes/hello-world-api:${{ steps.generate_tag.outputs.sha }}
