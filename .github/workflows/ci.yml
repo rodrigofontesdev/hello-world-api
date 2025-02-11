@@ -48,10 +48,13 @@ jobs:
         run: |
           docker build -t $REGISTRY/hello-world-api:$TAG .
           docker push $REGISTRY/hello-world-api:$TAG
+          docker tag $REGISTRY/hello-world-api:$TAG $REGISTRY/hello-world-api:latest
+          docker push $REGISTRY/hello-world-api:latest
           IMAGE=$(echo $REGISTRY/hello-world-api:$TAG)
           echo "image=$IMAGE" >> $GITHUB_OUTPUT
 
       - name: Deploy to App Runner
+        id: deploy-app-runner
         uses: awslabs/amazon-app-runner-deploy@main
         with:
           service: hello-world-api
@@ -61,6 +64,7 @@ jobs:
           cpu: 1
           memory: 2
           port: 3000
+          wait-for-service-stability-seconds: 180
 
-      # - name: Push image
-      #   run: docker push rodrigofontes/hello-world-api:${{ steps.generate_tag.outputs.sha }}
+      - name: App Runner check
+        run: echo "App Runner running... ${{ steps.deploy-app-runner.outputs.service-url }}"
