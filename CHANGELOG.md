@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/rodrigofontesdev/hello-world-api/compare/v1.0.0...v1.0.1) (2025-02-11)
+
+
+### Bug Fixes
+
+* fix permissions ([4728675](https://github.com/rodrigofontesdev/hello-world-api/commit/472867509e139b9bcd230bc1c617c24c7e245d20))
+
 # 1.0.0 (2025-02-11)
 
 
