@@ -40,8 +40,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::525883733118:role/ecr-role
-          aws-region: us-east-1
+          role-to-assume: ${{ secrets.AWS_LOGIN_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Lotin to AWS ECR
         id: login-ecr
@@ -64,10 +64,10 @@ jobs:
         id: deploy-app-runner
         uses: awslabs/amazon-app-runner-deploy@main
         with:
-          service: hello-world-api
+          service: ${{ vars.AWS_SERVICE_NAME }}
           image: ${{ steps.build-docker-image.outputs.image }}
-          access-role-arn: arn:aws:iam::525883733118:role/app-runner-role
-          region: us-east-1
+          access-role-arn: ${{ secrets.AWS_APP_RUNNER_ROLE }}
+          region: ${{ secrets.AWS_REGION }}
           cpu: 1
           memory: 2
           port: 3000
