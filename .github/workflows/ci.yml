@@ -54,9 +54,8 @@ jobs:
           TAG: ${{ steps.generate_tag.outputs.sha }}
         run: |
           docker build -t $REGISTRY/hello-world-api:$TAG .
-          docker push $REGISTRY/hello-world-api:$TAG
           docker tag $REGISTRY/hello-world-api:$TAG $REGISTRY/hello-world-api:latest
-          docker push $REGISTRY/hello-world-api:latest
+          docker push --all-tags $REGISTRY/hello-world-api
           IMAGE=$(echo $REGISTRY/hello-world-api:$TAG)
           echo "image=$IMAGE" >> $GITHUB_OUTPUT
 
